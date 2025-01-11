@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import {ItemsResult} from './types'
 
 interface Item {
   id: number;
@@ -19,8 +20,8 @@ function App() {
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);
         }
-        const data: Item[] = await response.json();
-        setItems(data);
+        const data: ItemsResult = await response.json();
+        setItems([{id:1,name:data.message}]);
       } catch (error) {
         console.error('There has been a problem with your fetch operation:', error);
       }
@@ -48,6 +49,7 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
+      <p>messages will be there</p>
       <ul>
         {items.map(item => (
           <li key={item.id}>{item.name}</li>
