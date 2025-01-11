@@ -49,6 +49,7 @@
   background-color: #f8f9fa;
   padding: 1rem;
   border-bottom: 1px solid #dee2e6;
+  margin-top: 0; /* Ensure no top margin */
 }
 
 .top-bar .logo {
