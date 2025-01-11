@@ -29,6 +29,14 @@ function App() {
 
   return (
     <>
+      <div className="top-bar">
+        <img src="/path/to/logo.svg" alt="Logo" className="logo" />
+        <h1 className="app-name">Remainer</h1>
+        <div className="login-options">
+          <button className="login-button">Login</button>
+          <button className="login-button">Register</button>
+        </div>
+      </div>
       <h1>Items List</h1>
       <ul>
         {items.map(item => (
