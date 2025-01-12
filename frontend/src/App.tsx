@@ -28,8 +28,8 @@ function App() {
   }, []);
 
   return (
-    <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary mb-4">
+    <div id="root">
+      <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
             <img src="/path/to/logo.svg" alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />
@@ -50,7 +50,7 @@ function App() {
           ))}
         </ul>
       </div>
-    </>
+    </div>
   )
 }
 
