@@ -29,20 +29,27 @@ function App() {
 
   return (
     <>
-      <div className="top-bar">
-        <img src="/path/to/logo.svg" alt="Logo" className="logo" />
-        <h1 className="app-name">Remainer</h1>
-        <div className="login-options">
-          <button className="login-button">Login</button>
-          <button className="login-button">Register</button>
+      <nav className="navbar navbar-expand-lg bg-body-tertiary mb-4">
+        <div className="container-fluid">
+          <a className="navbar-brand" href="#">
+            <img src="/path/to/logo.svg" alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />
+            Remainer
+          </a>
+          <div className="d-flex">
+            <button className="btn btn-outline-primary me-2">Login</button>
+            <button className="btn btn-primary">Register</button>
+          </div>
         </div>
+      </nav>
+      
+      <div className="container">
+        <h1 className="mb-4">Items List</h1>
+        <ul className="list-group">
+          {items.map(item => (
+            <li key={item.id} className="list-group-item">{item.name}</li>
+          ))}
+        </ul>
       </div>
-      <h1>Items List</h1>
-      <ul>
-        {items.map(item => (
-          <li key={item.id}>{item.name}</li>
-        ))}
-      </ul>
     </>
   )
 }
