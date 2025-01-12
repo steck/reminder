@@ -1,11 +1,12 @@
 import { Movie, MoviesResponse } from '../types';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
-const MOVIES_ENDPOINT = '/movies';
+const API_BASE_URL = '/api';
 
 export const fetchMovies = async (): Promise<Movie[]> => {
   try {
-    const response = await fetch(`${API_BASE_URL}${MOVIES_ENDPOINT}`);
+    const response = await fetch(`${API_BASE_URL}/movies`, {
+      credentials: 'include' // Include cookies for auth
+    });
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
