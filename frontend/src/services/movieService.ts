@@ -1,4 +1,4 @@
-import { Movie } from '../types';
+import { Movie, MoviesResponse } from '../types';
 
 const API_BASE_URL = '/api/movies';
 
