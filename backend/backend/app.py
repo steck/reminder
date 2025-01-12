@@ -19,7 +19,9 @@ def create_app(test_config=None):
     migrate = Migrate(app, db)
 
     # Import and register routes
-    from .routes import api_bp
-    app.register_blueprint(api_bp)
+    from .routes.auth import auth_bp
+    app.register_blueprint(auth_bp)
+    from .routes.movies import movies_bp
+    app.register_blueprint(movies_bp)
 
     return app

@@ -2,6 +2,7 @@ from uuid import uuid4
 from datetime import datetime
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 from .. import db
+import bcrypt
 
 class User(db.Model):
     """User model for authentication"""
@@ -15,3 +16,17 @@ class User(db.Model):
 
     def __repr__(self):
         return f'<User {self.email}>'
+    
+    def set_password(self, password: str) -> None:
+        """Hash and set password"""
+        self.password_hash = bcrypt.hashpw(
+            password.encode('utf-8'), 
+            bcrypt.gensalt()
+        ).decode('utf-8')
+    
+    def check_password(self, password: str) -> bool:
+        """Verify password"""
+        return bcrypt.checkpw(
+            password.encode('utf-8'),
+            self.password_hash.encode('utf-8')
+        )

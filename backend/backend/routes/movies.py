@@ -1,20 +1,10 @@
-from flask import Blueprint, jsonify, request, current_app
+from flask import Blueprint, jsonify, request
 from typing import Dict, Any, Tuple
-from .services.tmdb_service import TMDBService
 from functools import wraps
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+from ..services.tmdb_service import TMDBService
 import logging
 
-api_bp = Blueprint('api', __name__)
-
-# Initialize rate limiter
-limiter = Limiter(
-    get_remote_address,
-    app=current_app,
-    default_limits=["200 per day", "50 per hour"],
-    storage_uri="memory://",
-)
+movies_bp = Blueprint('movies', __name__, url_prefix='/movies')
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -27,8 +17,7 @@ def log_request(f):
         return f(*args, **kwargs)
     return decorated_function
 
-@api_bp.route('/movies', methods=['GET'])
-@limiter.limit("10 per minute")
+@movies_bp.route('/', methods=['GET'])
 @log_request
 def get_movies() -> Tuple[Dict[str, Any], int]:
     """Get list of popular movies from TMDB
