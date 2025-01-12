@@ -6,10 +6,6 @@ const MOVIES_ENDPOINT = '/movies';
 export const fetchMovies = async (): Promise<Movie[]> => {
   try {
     const response = await fetch(`${API_BASE_URL}${MOVIES_ENDPOINT}`);
-
-export const fetchMovies = async (): Promise<Movie[]> => {
-  try {
-    const response = await fetch(API_BASE_URL);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
