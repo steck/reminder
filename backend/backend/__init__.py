@@ -1,18 +1,12 @@
-from flask import Flask
-from .config import Config
+# Package initialization
+from flask_sqlalchemy import SQLAlchemy
 
-def create_app(test_config=None):
-    """Create and configure the Flask application"""
-    app = Flask(__name__)
-    
-    # Load configuration
-    if test_config is None:
-        app.config.from_object(Config)
-    else:
-        app.config.from_mapping(test_config)
+# Initialize extensions
+db = SQLAlchemy()
 
-    # Import and register routes
-    from .routes import api_bp
-    app.register_blueprint(api_bp)
+# Create the application instance
+def create_app():
+    from .app import create_app
+    return create_app()
 
-    return app
+app = create_app()
