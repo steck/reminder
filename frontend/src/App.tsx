@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import {ItemsResult} from './types'
+import Navbar from './components/Navbar'
 
 interface Item {
   id: number;
@@ -29,18 +30,7 @@ function App() {
 
   return (
     <div id="root">
-      <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            <img src="/path/to/logo.svg" alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />
-            Remainer
-          </a>
-          <div className="d-flex">
-            <button className="btn btn-outline-primary me-2">Login</button>
-            <button className="btn btn-primary">Register</button>
-          </div>
-        </div>
-      </nav>
+      <Navbar />
       
       <div className="container">
         <h1 className="mb-4">Items List</h1>
