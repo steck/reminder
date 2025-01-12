@@ -10,15 +10,7 @@ movies_bp = Blueprint('movies', __name__, url_prefix='/movies')
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-def log_request(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        logger.info(f"Request: {request.method} {request.path}")
-        return f(*args, **kwargs)
-    return decorated_function
-
 @movies_bp.route('/', methods=['GET'])
-@log_request
 def get_movies() -> Tuple[Dict[str, Any], int]:
     """Get list of popular movies from TMDB
     

@@ -1,33 +1,21 @@
-import React, { useState } from 'react';
-import { register, login, logout, AuthResponse } from '../services/authService';
-import RegistrationForm from './RegistrationForm';
+import React, { useState, useEffect } from 'react';
+import {  login, logout } from '../services/authService';
+import AuthButtons from './AuthButtons';
 
 const Navbar = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [email, setEmail] = useState('');
+  const [isLoggedIn, setIsLoggedIn] = useState(() => {
+    const storedAuth = localStorage.getItem('auth');
+    return storedAuth ? JSON.parse(storedAuth).isLoggedIn : false;
+  });
+  const [email, setEmail] = useState(() => {
+    const storedAuth = localStorage.getItem('auth');
+    return storedAuth ? JSON.parse(storedAuth).email : '';
+  });
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
-
-  const handleRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError('');
-    setSuccessMessage('');
-
-    try {
-      const result = await register(email, password);
-      setSuccessMessage(result.message);
-      setTimeout(() => {
-        setShowRegisterModal(false);
-        setEmail('');
-        setPassword('');
-      }, 1500);
-    } catch (err) {
-      setError((err as Error).message);
-    }
-  };
 
   return (
     <>
@@ -37,59 +25,41 @@ const Navbar = () => {
             <img src="/src/assets/react.svg" alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />
             Remainer
           </a>
-          <div className="d-flex">
-            {isLoggedIn ? (
-              <button 
-                className="btn btn-danger me-2"
-                onClick={async () => {
-                  try {
-                    await logout();
-                    setIsLoggedIn(false);
-                  } catch (err) {
-                    setError((err as Error).message);
-                  }
-                }}
-              >
-                Logout
-              </button>
-            ) : (
-              <button 
-                className="btn btn-outline-primary me-2"
-                onClick={() => setShowLoginModal(true)}
-              >
-                Login
-              </button>
-            )}
-            <button 
-              className="btn btn-primary"
-              onClick={() => setShowRegisterModal(true)}
-            >
-              Register
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Registration Modal */}
-      {showRegisterModal && (
-        <>
-          <RegistrationForm
+          <AuthButtons
+            isLoggedIn={isLoggedIn}
+            userEmail={isLoggedIn ? email : undefined}
+            showRegisterModal={showRegisterModal}
+            showLoginModal={showLoginModal}
             email={email}
             password={password}
             error={error}
             successMessage={successMessage}
             onEmailChange={setEmail}
             onPasswordChange={setPassword}
-            onSubmit={handleRegister}
-            onClose={() => {
+            onLoginClick={() => setShowLoginModal(true)}
+            onRegisterClick={() => setShowRegisterModal(true)}
+            onCloseRegister={() => {
               setShowRegisterModal(false);
               setError('');
               setSuccessMessage('');
             }}
+            onCloseLogin={() => {
+              setShowLoginModal(false);
+              setError('');
+              setSuccessMessage('');
+            }}
+            onLogoutClick={async () => {
+              try {
+                await logout();
+                setIsLoggedIn(false);
+                localStorage.removeItem('auth');
+              } catch (err) {
+                setError((err as Error).message);
+              }
+            }}
           />
-          <div className="modal-backdrop fade show"></div>
-        </>
-      )}
+        </div>
+      </nav>
 
       {/* Login Modal */}
       {showLoginModal && (
@@ -128,6 +98,10 @@ const Navbar = () => {
                     const result = await login(email, password);
                     setSuccessMessage(result.message);
                     setIsLoggedIn(true);
+                    localStorage.setItem('auth', JSON.stringify({
+                      isLoggedIn: true,
+                      email: email
+                    }));
                     setTimeout(() => {
                       setShowLoginModal(false);
                       setEmail('');
