@@ -17,14 +17,16 @@ class TMDBService:
             List[Dict[str, Any]]: List of movie dictionaries
         """
         url = f"{current_app.config['TMDB_BASE_URL']}/movie/popular"
-        print(current_app.config['TMDB_API_KEY'])
+        headers = {
+            'Authorization': f'Bearer {current_app.config["TMDB_API_KEY"]}',
+            'accept': 'application/json'
+        }
         params = {
-            'api_key': current_app.config['TMDB_API_KEY'],
             'page': page
         }
         
         try:
-            response = requests.get(url, params=params)
+            response = requests.get(url, headers=headers, params=params)
             response.raise_for_status()
             return response.json().get('results', [])
         except requests.exceptions.RequestException as e:
