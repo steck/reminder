@@ -5,7 +5,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <a className="navbar-brand" href="#">
-          <img src="/path/to/logo.svg" alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />
+          <img src="/src/assets/react.svg" alt="Logo" width="30" height="24" className="d-inline-block align-text-top" />
           Remainer
         </a>
         <div className="d-flex">
