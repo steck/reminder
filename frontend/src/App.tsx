@@ -1,31 +1,23 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import {ItemsResult} from './types'
+import { Movie } from './types'
 import Navbar from './components/Navbar'
-
-interface Item {
-  id: number;
-  name: string;
-}
+import { fetchMovies } from './services/movieService'
 
 function App() {
-  const [items, setItems] = useState<Item[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
 
   useEffect(() => {
-    async function fetchItems() {
+    async function loadMovies() {
       try {
-        const response = await fetch('/api/items');
-        if (!response.ok) {
-          throw new Error('Network response was not ok ' + response.statusText);
-        }
-        const data: ItemsResult = await response.json();
-        setItems([{id:1,name:data.message}]);
+        const movies = await fetchMovies();
+        setMovies(movies);
       } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
+        console.error('Failed to load movies:', error);
       }
     }
 
-    fetchItems();
+    loadMovies();
   }, []);
 
   return (
@@ -33,12 +25,28 @@ function App() {
       <Navbar />
       
       <div className="container">
-        <h1 className="mb-4">Items List</h1>
-        <ul className="list-group">
-          {items.map(item => (
-            <li key={item.id} className="list-group-item">{item.name}</li>
+        <h1 className="mb-4">Movies</h1>
+        <div className="row">
+          {movies.map(movie => (
+            <div key={movie.id} className="col-md-4 mb-4">
+              <div className="card">
+                <img 
+                  src={movie.posterPath} 
+                  className="card-img-top" 
+                  alt={movie.title}
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{movie.title}</h5>
+                  <p className="card-text">{movie.overview}</p>
+                  <div className="d-flex justify-content-between align-items-center">
+                    <small className="text-muted">{movie.releaseDate}</small>
+                    <span className="badge bg-primary">{movie.rating}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   )
