@@ -3,11 +3,24 @@ export interface ItemsResult {
 }
 
 export interface Movie {
+  adult: boolean;
+  backdrop_path: string;
+  genre_ids: number[];
   id: number;
-  title: string;
-  releaseDate: string;
+  original_language: string;
+  original_title: string;
   overview: string;
-  posterPath: string;
-  rating: number;
-  genres: string[];
+  popularity: number;
+  poster_path: string;
+  release_date: string;
+  title: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface MoviesResponse {
+  message: string;
+  movies: Movie[];
+  page: number;
 }

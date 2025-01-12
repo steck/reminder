@@ -8,8 +8,8 @@ export const fetchMovies = async (): Promise<Movie[]> => {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = await response.json();
-    return data as Movie[];
+    const data: MoviesResponse = await response.json();
+    return data.movies;
   } catch (error) {
     console.error('Error fetching movies:', error);
     throw error;

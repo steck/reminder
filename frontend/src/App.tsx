@@ -42,7 +42,7 @@ function App() {
             <div key={movie.id} className="col-md-4 mb-4">
               <div className="card">
                 <img 
-                  src={movie.posterPath} 
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
                   className="card-img-top" 
                   alt={movie.title}
                 />
@@ -50,8 +50,8 @@ function App() {
                   <h5 className="card-title">{movie.title}</h5>
                   <p className="card-text">{movie.overview}</p>
                   <div className="d-flex justify-content-between align-items-center">
-                    <small className="text-muted">{movie.releaseDate}</small>
-                    <span className="badge bg-primary">{movie.rating}</span>
+                    <small className="text-muted">{movie.release_date}</small>
+                    <span className="badge bg-primary">{movie.vote_average}</span>
                   </div>
                 </div>
               </div>
