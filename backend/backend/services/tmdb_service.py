@@ -17,6 +17,7 @@ class TMDBService:
             List[Dict[str, Any]]: List of movie dictionaries
         """
         url = f"{current_app.config['TMDB_BASE_URL']}/movie/popular"
+        print(current_app.config['TMDB_API_KEY'])
         params = {
             'api_key': current_app.config['TMDB_API_KEY'],
             'page': page
