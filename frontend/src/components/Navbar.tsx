@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { register, login, logout, AuthResponse } from '../services/authService';
+import RegistrationForm from './RegistrationForm';
 
 const Navbar = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -71,66 +72,24 @@ const Navbar = () => {
 
       {/* Registration Modal */}
       {showRegisterModal && (
-        <div className="modal fade show" style={{ display: 'block' }} tabIndex={-1}>
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Register</h5>
-                <button 
-                  type="button" 
-                  className="btn-close" 
-                  onClick={() => {
-                    setShowRegisterModal(false);
-                    setError('');
-                    setSuccessMessage('');
-                  }}
-                ></button>
-              </div>
-              <div className="modal-body">
-                {error && (
-                  <div className="alert alert-danger" role="alert">
-                    {error}
-                  </div>
-                )}
-                {successMessage && (
-                  <div className="alert alert-success" role="alert">
-                    {successMessage}
-                  </div>
-                )}
-                <form onSubmit={handleRegister}>
-                  <div className="mb-3">
-                    <label htmlFor="email" className="form-label">Email address</label>
-                    <input
-                      type="email"
-                      className="form-control"
-                      id="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="mb-3">
-                    <label htmlFor="password" className="form-label">Password</label>
-                    <input
-                      type="password"
-                      className="form-control"
-                      id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                      minLength={6}
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-primary">
-                    Register
-                  </button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
+        <>
+          <RegistrationForm
+            email={email}
+            password={password}
+            error={error}
+            successMessage={successMessage}
+            onEmailChange={setEmail}
+            onPasswordChange={setPassword}
+            onSubmit={handleRegister}
+            onClose={() => {
+              setShowRegisterModal(false);
+              setError('');
+              setSuccessMessage('');
+            }}
+          />
+          <div className="modal-backdrop fade show"></div>
+        </>
       )}
-      {showRegisterModal && <div className="modal-backdrop fade show"></div>}
 
       {/* Login Modal */}
       {showLoginModal && (
