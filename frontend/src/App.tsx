@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import Alert from 'react-bootstrap/Alert';
 import './App.css'
 import { Movie } from './types'
 import Navbar from './components/Navbar'
@@ -6,6 +7,7 @@ import { fetchMovies } from './services/movieService'
 
 function App() {
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadMovies() {
@@ -13,6 +15,7 @@ function App() {
         const movies = await fetchMovies();
         setMovies(movies);
       } catch (error) {
+        setError('Failed to load movies. Please try again later.');
         console.error('Failed to load movies:', error);
       }
     }
@@ -23,6 +26,14 @@ function App() {
   return (
     <div id="root">
       <Navbar />
+      
+      {error && (
+        <div className="container mt-3">
+          <Alert variant="danger" onClose={() => setError(null)} dismissible>
+            {error}
+          </Alert>
+        </div>
+      )}
       
       <div className="container">
         <h1 className="mb-4">Movies</h1>
